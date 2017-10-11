@@ -69,6 +69,12 @@
 						<span>任务管理</span>
 					</a>    				
 				</li>
+				<li {{if eq .curController "command"}}class="active"{{end}}>
+					<a href="/command/list">
+						<i class="icon-list-alt"></i>
+						<span>指令管理</span>
+					</a>    				
+				</li>
 				<li {{if eq .curController "group"}}class="active"{{end}}>					
 					<a href="/group/list">
 						<i class="icon-folder-close"></i>

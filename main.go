@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/lisijie/webcron/app/controllers"
-	"github.com/lisijie/webcron/app/jobs"
-	_ "github.com/lisijie/webcron/app/mail"
-	"github.com/lisijie/webcron/app/models"
 	"html/template"
 	"net/http"
+
+	"github.com/astaxie/beego"
+	"github.com/sinxsoft/webcron/app/controllers"
+	"github.com/sinxsoft/webcron/app/jobs"
+	_ "github.com/sinxsoft/webcron/app/mail"
+	"github.com/sinxsoft/webcron/app/models"
 )
 
 const VERSION = "1.0.0"
@@ -39,6 +40,9 @@ func main() {
 	beego.Router("/help", &controllers.HelpController{}, "*:Index")
 	beego.AutoRouter(&controllers.TaskController{})
 	beego.AutoRouter(&controllers.GroupController{})
+
+	//add a test page by henrik
+	beego.AutoRouter(&controllers.CommandController{})
 
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	beego.Run()

@@ -3,14 +3,15 @@ package jobs
 import (
 	"bytes"
 	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/lisijie/webcron/app/mail"
-	"github.com/lisijie/webcron/app/models"
 	"html/template"
 	"os/exec"
 	"runtime/debug"
 	"strings"
 	"time"
+
+	"github.com/astaxie/beego"
+	"github.com/sinxsoft/webcron/app/mail"
+	"github.com/sinxsoft/webcron/app/models"
 )
 
 var mailTpl *template.Template

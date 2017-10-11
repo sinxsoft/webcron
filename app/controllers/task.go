@@ -1,14 +1,15 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
-	libcron "github.com/lisijie/cron"
-	"github.com/lisijie/webcron/app/jobs"
-	"github.com/lisijie/webcron/app/libs"
-	"github.com/lisijie/webcron/app/models"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/astaxie/beego"
+	libcron "github.com/sinxsoft/cron"
+	"github.com/sinxsoft/webcron/app/jobs"
+	"github.com/sinxsoft/webcron/app/libs"
+	"github.com/sinxsoft/webcron/app/models"
 )
 
 type TaskController struct {

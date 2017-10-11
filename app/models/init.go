@@ -1,10 +1,12 @@
 package models
 
 import (
+	"fmt"
+	"net/url"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"net/url"
 )
 
 func Init() {
@@ -23,7 +25,16 @@ func Init() {
 	}
 	orm.RegisterDataBase("default", "mysql", dsn)
 
-	orm.RegisterModel(new(User), new(Task), new(TaskGroup), new(TaskLog))
+	orm.RegisterModel(new(User), new(Task), new(TaskGroup), new(TaskLog), new(Command))
+
+	c := new(Command)
+	c.CommandId = 111
+	c.CommandName = "commandName"
+	c.CommandText = "commandTest"
+	c.CommandType = 12
+	c.CreateTime = 12
+	c.Description = "desc"
+	fmt.Println(*c)
 
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true

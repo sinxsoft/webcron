@@ -1,0 +1,88 @@
+<div class="row">
+<div class="span12">      		
+	   		
+	<div class="widget ">
+		<div class="widget-header">
+			<i class="icon-plus"></i>
+ 			<h3>编辑指令</h3>
+		</div> <!-- /widget-header -->
+
+		<div class="widget-content">
+		
+		<div class="alert alert-danger hide" role="alert"></div>
+
+		<form id="add-task" action="{{urlfor "CommandController.Edit"}}" method="post" class="form-horizontal">
+			<input type="hidden" name="id" value="{{.command.Id}}" />
+			<fieldset>
+
+				<div class="control-group">											
+					<label class="control-label" for="commandName">指令名称</label>
+					<div class="controls">
+						<input type="text" name="commandName" class="span6" value="{{.command.CommandName}}" id="commandName">
+					</div>				
+				</div>
+								
+				<div class="control-group">											
+					<label class="control-label" for="commandType">指令类型</label>
+					<div class="controls">
+						<input name="commandType" class="span6" id="commandType" value="{{.command.CommandType}}" rows="3"></input>
+					</div> <!-- /controls -->				
+				</div> <!-- /control-group -->
+				
+				
+				<div class="control-group">											
+					<label class="control-label" for="description">指令说明</label>
+					<div class="controls">
+						<input type="text" name="description" class="span6" id="description" value="{{.command.Description}}">
+					
+					</div> <!-- /controls -->				
+				</div> <!-- /control-group -->
+
+				<div class="control-group">											
+					<label class="control-label" for="status">指令状态</label>
+					<div class="controls">
+						<input type="text" name="status" class="span6" id="status"  value="{{.command.Status}}">
+					
+					</div> <!-- /controls -->				
+				</div> <!-- /control-group -->
+				
+				
+				<div class="control-group">											
+					<label class="control-label" for="commandText">指令文本</label>
+					<div class="controls">
+						<input type="text" name="status" class="span6" id="status"  value="{{.command.CommandText}}">
+					</div> <!-- /controls -->				
+				</div> <!-- /control-group -->
+
+				<br />
+							
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">保 存</button> 
+					<a href="{{urlfor "CommandController.List"}}" class="btn">返 回</a>
+				</div> <!-- /form-actions -->
+			</fieldset>
+		</form>
+
+		</div>
+	</div>
+</div>
+</div>
+
+<script>
+$(function () {
+	$("form").submit(function () {
+		$(".alert").hide();
+		$("button[type='submit']").attr('disabled', true);
+		$.post('{{urlfor "CommandController.Edit"}}', $(this).serialize(), function (out) {
+			if (out.status == 0) {
+				window.location.href = '{{urlfor "CommandController.List"}}';
+			} else {
+				$(".alert").text(out.msg);
+				$(".alert").show();
+				$("button[type='submit']").attr('disabled', false);
+			}
+		}, "json");
+		return false;
+	});
+});
+</script>

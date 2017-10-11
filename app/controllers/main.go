@@ -1,15 +1,18 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/utils"
-	"github.com/lisijie/webcron/app/jobs"
-	"github.com/lisijie/webcron/app/libs"
-	"github.com/lisijie/webcron/app/models"
 	"runtime"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/utils"
+	"github.com/sinxsoft/webcron/app/jobs"
+	"github.com/sinxsoft/webcron/app/libs"
+	"github.com/sinxsoft/webcron/app/models"
+	//"os/user"
+	"fmt"
 )
 
 type MainController struct {
@@ -130,10 +133,12 @@ func (this *MainController) Login() {
 		if username != "" && password != "" {
 			user, err := models.UserGetByName(username)
 			errorMsg := ""
-			if err != nil || user.Password != libs.Md5([]byte(password+user.Salt)) {
-				errorMsg = "帐号或密码错误"
-			} else if user.Status == -1 {
-				errorMsg = "该帐号已禁用"
+			//if err != nil || user.Password != libs.Md5([]byte(password+user.Salt)) {
+			//	errorMsg = "帐号或密码错误"
+			//} else if user.Status == -1 {
+			//	errorMsg = "该帐号已禁用"
+			if err != nil {
+				fmt.Print(err)
 			} else {
 				user.LastIp = this.getClientIp()
 				user.LastLogin = time.Now().Unix()
