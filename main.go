@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
+	"reflect"
 
 	"github.com/astaxie/beego"
 	"github.com/sinxsoft/webcron/app/controllers"
@@ -44,6 +46,45 @@ func main() {
 	//add a test page by henrik
 	beego.AutoRouter(&controllers.CommandController{})
 
-	beego.BConfig.WebConfig.Session.SessionOn = true
+	beego.BConfig.WebConfig.Session.SessionOn = false
 	beego.Run()
+}
+
+//---------------------------------以下是用reflect实现一些类型无关的泛型编程示例
+//new object same the type as sample
+func New(sample interface{}) interface{} {
+	t := reflect.ValueOf(sample).Type()
+	v := reflect.New(t).Interface()
+	return v
+}
+
+//---------------------------------check type of aninterface
+func CheckType(val interface{}, kind reflect.Kind) bool {
+	v := reflect.ValueOf(val)
+	return kind == v.Kind()
+}
+
+//---------------------------------if _func is not a functionor para num and type not match,it will cause panic
+func Call(_func interface{}, params ...interface{}) (result []interface{}, err error) {
+	f := reflect.ValueOf(_func)
+	if len(params) != f.Type().NumIn() {
+		ss := fmt.Sprintf("The number of params is not adapted.%s", f.String())
+		panic(ss)
+		return
+	}
+	var in []reflect.Value
+	if len(params) > 0 { //prepare in paras
+		in = make([]reflect.Value, len(params))
+		for k, param := range params {
+			in[k] = reflect.ValueOf(param)
+		}
+	}
+	out := f.Call(in)
+	if len(out) > 0 { //prepare out paras
+		result = make([]interface{}, len(out), len(out))
+		for i, v := range out {
+			result[i] = v.Interface()
+		}
+	}
+	return
 }

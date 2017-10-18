@@ -11,8 +11,7 @@ import (
 	"github.com/sinxsoft/webcron/app/jobs"
 	"github.com/sinxsoft/webcron/app/libs"
 	"github.com/sinxsoft/webcron/app/models"
-	//"os/user"
-	"fmt"
+
 )
 
 type MainController struct {
@@ -133,13 +132,11 @@ func (this *MainController) Login() {
 		if username != "" && password != "" {
 			user, err := models.UserGetByName(username)
 			errorMsg := ""
-			//if err != nil || user.Password != libs.Md5([]byte(password+user.Salt)) {
-			//	errorMsg = "帐号或密码错误"
-			//} else if user.Status == -1 {
-			//	errorMsg = "该帐号已禁用"
-			if err != nil {
-				fmt.Print(err)
-			} else {
+			if err != nil || user.Password != libs.Md5([]byte(password+user.Salt)) {
+				errorMsg = "帐号或密码错误"
+			} else if user.Status == -1 {
+				errorMsg = "该帐号已禁用"
+			}else {
 				user.LastIp = this.getClientIp()
 				user.LastLogin = time.Now().Unix()
 				models.UserUpdate(user)
